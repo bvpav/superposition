@@ -21,7 +21,7 @@ const useAnimationFrame = (callback: (dt: number) => void) => {
 
 const ThreeBodyPage = () => {
   const [positions, setPositions] = useState<[number, number][]>([
-    [0, 128],
+    [-128, 128],
     [-128, -128],
     [128, -128],
   ]);
@@ -37,7 +37,7 @@ const ThreeBodyPage = () => {
           const mag = Math.sqrt(vx * vx + vy * vy);
           vx /= mag;
           vy /= mag;
-          const force = 7000 / ((bx - ax) ** 2 + (by - ay) ** 2);
+          const force = (70 * 70) / ((bx - ax) ** 2 + (by - ay) ** 2);
           ax += vx * force;
           ay += vy * force;
         }
@@ -49,7 +49,7 @@ const ThreeBodyPage = () => {
 
   return (
     <div className="flex h-[100vh] bg-black">
-      <div className=" h-full w-full overflow-clip bg-black">
+      <div className="relative h-full w-full overflow-hidden bg-black">
         {positions.map(([x, y], i) => (
           <div
             key={i}
