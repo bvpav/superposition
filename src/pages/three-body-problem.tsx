@@ -23,7 +23,11 @@ const useAnimationFrame = (callback: (dt: number) => void) => {
 const p = (px: number, py: number, vx = 0, vy = 0) => ({ px, py, vx, vy });
 
 const ThreeBodyPage = () => {
-  const [positions, setPositions] = useState([p(-4, -4), p(4, -4), p(0, 4)]);
+  const [positions, setPositions] = useState([
+    p(-8, -8, 0, 5e-3),
+    p(8, -8, -5e-3, 0),
+    p(0, 8, 5e-3, 0),
+  ]);
 
   useAnimationFrame((dt) =>
     setPositions((positions) =>
@@ -33,14 +37,14 @@ const ThreeBodyPage = () => {
           let [fx, fy] = [bx - ax, by - ay];
           const mag = Math.sqrt(fx * fx + fy * fy);
           const forceMag =
-            (6.67408e-11 * (1000 * 1000)) / ((bx - ax) ** 2 + (by - ay) ** 2);
+            (6.67408e-11 * 15000 ** 2) / ((bx - ax) ** 2 + (by - ay) ** 2);
           fx = (fx / mag) * forceMag;
           fy = (fy / mag) * forceMag;
           vx += fx;
           vy += fy;
-          ax += vx * dt;
-          ay += vy * dt;
         });
+        ax += vx * dt;
+        ay += vy * dt;
         return { px: ax, py: ay, vx, vy };
       })
     )
