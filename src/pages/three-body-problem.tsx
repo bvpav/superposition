@@ -53,8 +53,13 @@ const ThreeBodyPage = () => {
         {positions.map(([x, y], i) => (
           <div
             key={i}
-            className="absolute left-[50%] top-[50%] h-10 w-10 rounded-full bg-red-500"
-            style={{ transform: `translate(${x}px, ${-y}px)` }}
+            className="absolute left-[50%] top-[50%] h-10 w-10 rounded-full opacity-60"
+            style={{
+              transform: `translate(${x}px, ${-y}px)`,
+              backgroundColor: `hsl(${
+                (i / (positions.length - 1)) * 270
+              }deg, 100%, 50%)`,
+            }}
           />
         ))}
       </div>
