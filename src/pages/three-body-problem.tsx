@@ -16,7 +16,7 @@ const useAnimationFrame = (callback: (dt: number) => void) => {
   useEffect(() => {
     requestRef.current = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(requestRef.current!);
-  }, []);
+  }, [animate]);
 };
 
 const ThreeBodyPage = () => {
@@ -33,13 +33,13 @@ const ThreeBodyPage = () => {
         for (const j in positions) {
           if (i === j) continue;
           const [bx, by] = positions[j]!;
-          let [vx, vy] = [bx - ax, by - ay];
-          const mag = Math.sqrt(vx * vx + vy * vy);
-          vx /= mag;
-          vy /= mag;
-          const force = (70 * 70) / ((bx - ax) ** 2 + (by - ay) ** 2);
-          ax += vx * force;
-          ay += vy * force;
+          let [fx, fy] = [bx - ax, by - ay];
+          const mag = Math.sqrt(fx * fx + fy * fy);
+          const forceMag = (70 * 70) / ((bx - ax) ** 2 + (by - ay) ** 2);
+          fx = (fx / mag) * forceMag;
+          fy = (fy / mag) * forceMag;
+          ax += fx;
+          ay += fy;
         }
         positions[i] = [ax, ay];
       }
