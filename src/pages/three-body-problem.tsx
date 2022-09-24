@@ -26,26 +26,24 @@ const ThreeBodyPage = () => {
   const [positions, setPositions] = useState([p(-4, -4), p(4, -4), p(0, 4)]);
 
   useAnimationFrame((dt) =>
-    setPositions(([...positions]) => {
-      for (const i in positions) {
-        let { px: ax, py: ay, vx, vy } = positions[i]!;
-        for (const j in positions) {
-          if (i === j) continue;
-          const { px: bx, py: by } = positions[j]!;
+    setPositions((positions) =>
+      positions.map(({ px: ax, py: ay, vx, vy }, i) => {
+        positions.forEach(({ px: bx, py: by }, j) => {
+          if (i === j) return;
           let [fx, fy] = [bx - ax, by - ay];
           const mag = Math.sqrt(fx * fx + fy * fy);
-          const forceMag = (70 * 70) / ((bx - ax) ** 2 + (by - ay) ** 2);
+          const forceMag =
+            (6.67408e-11 * (1000 * 1000)) / ((bx - ax) ** 2 + (by - ay) ** 2);
           fx = (fx / mag) * forceMag;
           fy = (fy / mag) * forceMag;
           vx += fx;
           vy += fy;
           ax += vx * dt;
           ay += vy * dt;
-        }
-        positions[i] = { px: ax, py: ay, vx, vy };
-      }
-      return positions;
-    })
+        });
+        return { px: ax, py: ay, vx, vy };
+      })
+    )
   );
 
   return (
