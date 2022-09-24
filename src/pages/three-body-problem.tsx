@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import { useEffect, useRef, useState } from 'react';
 
 const useAnimationFrame = (callback: (dt: number) => void) => {
@@ -48,22 +49,28 @@ const ThreeBodyPage = () => {
   );
 
   return (
-    <div className="flex h-[100vh] bg-black">
-      <div className="relative h-full w-full overflow-hidden bg-black">
-        {positions.map(({ px, py }, i) => (
-          <div
-            key={i}
-            className="absolute left-[50%] top-[50%] h-10 w-10 rounded-full opacity-60"
-            style={{
-              transform: `translate(${px}cm, ${-py}cm)`,
-              backgroundColor: `hsl(${
-                ((i + 1) / positions.length) * 270
-              }deg, 100%, 50%)`,
-            }}
-          />
-        ))}
+    <>
+      <Head>
+        <title>Three Body Problem</title>
+      </Head>
+
+      <div className="flex h-[100vh] bg-black">
+        <div className="relative h-full w-full overflow-hidden bg-black">
+          {positions.map(({ px, py }, i) => (
+            <div
+              key={i}
+              className="absolute left-[50%] top-[50%] h-10 w-10 rounded-full opacity-60"
+              style={{
+                transform: `translate(${px}cm, ${-py}cm)`,
+                backgroundColor: `hsl(${
+                  ((i + 1) / positions.length) * 270
+                }deg, 100%, 50%)`,
+              }}
+            />
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
